@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>AI Literacy Assessment</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap');
+:root{
+  --bg:#111827;
+  --sf:#171923;
+  --s2:#1e2230;
+  --s3:#252a3a;
+
+  --bd:#2e3446;
+  --b2:#3a4158;
+
+  --ac:#7c6ff7;
+  --a2:#9f8cff;
+  --a3:#4dd0e1;
+  --a4:#f0a040;
+
+  --tx:#f1f3f8;
+  --mu:#9aa0b5;
+  --di:#5c627a;
+
+  --ok:#4caf7d;
+  --wn:#f0a040;
+  --er:#f06060;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;overflow-x:hidden}
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background: radial-gradient(circle at 20% 20%, rgba(124,111,247,0.08), transparent 40%),
+              radial-gradient(circle at 80% 80%, rgba(77,208,225,0.06), transparent 40%);
+  pointer-events:none;
+  z-index:0;
+}
+.scr{
+  display:none;
+}
+.scr.on{display:block}
+/* LANDING */
+#s0{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 20px;text-align:center}
+.pill{display:inline-flex;align-items:center;gap:7px;background:rgba(124,111,247,.1);border:1px solid rgba(124,111,247,.25);border-radius:100px;padding:5px 14px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ac);margin-bottom:28px}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--ac);animation:bl 2s infinite}
+@keyframes bl{0%,100%{opacity:1}50%{opacity:.3}}
+.hero{font-family:'Syne',sans-serif;font-size:clamp(32px,5.5vw,64px);font-weight:800;line-height:1.06;letter-spacing:-2px;margin-bottom:14px}
+.hero .g{background:linear-gradient(125deg,var(--ac),var(--a2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sub{font-size:15px;color:var(--mu);max-width:480px;line-height:1.65;margin-bottom:40px}
+.stats{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:36px}
+.sc{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:16px 24px;text-align:center;min-width:100px}
+.sc .v{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--ac)}
+.sc .l{font-size:10px;color:var(--mu);letter-spacing:1px;text-transform:uppercase;margin-top:3px}
+.card{
+  background:var(--sf);
+  border:1px solid var(--bd);
+  border-radius:16px;
+  padding:32px;
+  width:100%;
+  max-width:520px;
+  text-align:left;
+
+  box-shadow:0 12px 32px rgba(0,0,0,0.25);
+  backdrop-filter: blur(6px);
+}
+.card h2{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;margin-bottom:20px}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fg .full{grid-column:1/-1}
+.fl label{display:block;font-size:11px;font-weight:500;letter-spacing:.5px;color:var(--mu);text-transform:uppercase;margin-bottom:7px}
+.fl input,.fl select{width:100%;background:var(--bg);border:1px solid var(--bd);border-radius:7px;padding:10px 12px;color:var(--tx);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border-color .2s}
+.fl input:focus,.fl select:focus{border-color:var(--ac)}
+.fl select option{background:var(--bg)}
+.btn{
+  width:100%;
+  margin-top:20px;
+  padding:14px;
+
+  background:linear-gradient(135deg,#7c6ff7,#9f8cff);
+  border:none;
+  border-radius:10px;
+
+  color:#fff;
+  font-family:'Syne',sans-serif;
+  font-size:14px;
+  font-weight:700;
+  letter-spacing:0.3px;
+
+  cursor:pointer;
+  transition:all .2s ease;
+
+  box-shadow:0 6px 18px rgba(124,111,247,0.35);
+}
+.btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 24px rgba(124,111,247,0.45);
+}
+
+
+/* INSTRUCTIONS */
+#s1{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 20px}
+.ic{background:var(--sf);border:1px solid var(--bd);border-radius:18px;padding:40px;max-width:640px;width:100%}
+.ic h2{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;margin-bottom:6px}
+.ic .dsc{color:var(--mu);font-size:13px;line-height:1.65;margin-bottom:24px}
+.obj-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:24px}
+.og{background:var(--s2);border:1px solid var(--bd);border-radius:10px;padding:14px;text-align:center}
+.og .oi{font-size:20px;margin-bottom:6px}
+.og h4{font-size:12px;font-weight:500;margin-bottom:2px}
+.og p{font-size:10px;color:var(--mu);line-height:1.4}
+.rules{list-style:none;margin-bottom:24px}
+.rules li{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--bd);font-size:13px;color:var(--mu);line-height:1.5}
+.rules li:last-child{border-bottom:none}
+.rules li .n{width:19px;height:19px;border-radius:50%;background:rgba(124,111,247,.14);color:var(--ac);font-family:'DM Mono',monospace;font-size:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+/* HEADER */
+.hd{position:sticky;top:0;z-index:10;background:rgba(8,8,14,.93);backdrop-filter:blur(18px);border-bottom:1px solid var(--bd);padding:11px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.cn{font-family:'Syne',sans-serif;font-weight:800;font-size:13px}
+.cm{font-size:10px;color:var(--mu);font-family:'DM Mono',monospace}
+.pt{flex:1;max-width:340px}
+.pl{display:flex;justify-content:space-between;font-size:10px;color:var(--mu);font-family:'DM Mono',monospace;margin-bottom:5px}
+.pb{height:3px;background:var(--bd);border-radius:3px;overflow:hidden}
+.pf{height:100%;background:linear-gradient(90deg,var(--ac),var(--a2));border-radius:3px;transition:width .5s}
+.tmr{background:var(--sf);border:1px solid var(--bd);border-radius:7px;padding:6px 13px;font-family:'DM Mono',monospace;font-size:18px;font-weight:500;min-width:80px;text-align:center;transition:border-color .3s,color .3s}
+.tmr.wn{border-color:var(--wn);color:var(--wn)}
+.tmr.er{border-color:var(--er);color:var(--er);animation:tp 1s infinite}
+@keyframes tp{0%,100%{opacity:1}50%{opacity:.5}}
+/* BODY */
+#s2{min-height:100vh}
+.tb{max-width:820px;margin:0 auto;padding:32px 20px 80px}
+.stag{display:inline-flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:3px 10px;border-radius:100px;border:1px solid;margin-bottom:14px}
+.qn{font-family:'DM Mono',monospace;font-size:10px;color:var(--mu);margin-bottom:6px;letter-spacing:1px}
+.qt{font-family:'Syne',sans-serif;font-size:clamp(16px,2.8vw,21px);font-weight:800;line-height:1.3;margin-bottom:16px}
+.sbox{background:var(--s2);border-left:3px solid var(--ac);padding:16px 18px;margin-bottom:16px;border-radius:0 8px 8px 0}
+.sbox .sl{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ac);font-family:'DM Mono',monospace;margin-bottom:8px;font-weight:500}
+.sbox p,.sbox pre{font-size:13px;line-height:1.7;color:#b8b8d0}
+.sbox pre{font-family:'DM Mono',monospace;font-size:12px;background:rgba(0,0,0,.3);padding:12px;border-radius:6px;margin-top:8px;white-space:pre-wrap;word-break:break-word}
+.ctags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.ct{font-size:10px;padding:2px 8px;border-radius:100px;background:rgba(124,111,247,.09);border:1px solid rgba(124,111,247,.18);color:var(--ac);font-family:'DM Mono',monospace}
+.qtsk{font-size:13px;color:var(--mu);line-height:1.6;margin-bottom:16px}
+.qtsk strong{color:var(--tx)}
+/* TEXTAREA */
+.ata{width:100%;min-height:150px;background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:13px;color:var(--tx);font-family:'DM Mono',monospace;font-size:12px;line-height:1.75;resize:vertical;outline:none;transition:border-color .2s}
+.ata:focus{border-color:var(--ac)}
+.ata::placeholder{color:var(--di)}
+.ataf{display:flex;justify-content:space-between;margin-top:5px;font-size:10px;font-family:'DM Mono',monospace;color:var(--mu)}
+/* MCQ */
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{display:flex;align-items:flex-start;gap:11px;padding:12px 14px;background:var(--s2);border:1px solid var(--bd);border-radius:8px;cursor:pointer;transition:border-color .15s,background .15s;font-size:13px;line-height:1.5}
+.opt:hover{border-color:var(--b2)}
+.opt.sel{background:rgba(124,111,247,.08);border-color:var(--ac)}
+.opt .ob{width:17px;height:17px;border-radius:50%;border:1.5px solid var(--di);flex-shrink:0;margin-top:1px;transition:all .15s;display:flex;align-items:center;justify-content:center}
+.opt.sel .ob{border-color:var(--ac);background:var(--ac)}
+.opt.sel .ob::after{content:'';width:5px;height:5px;border-radius:50%;background:#fff}
+/* TASK GRID */
+.tgrid{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.trow{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--s2);border:1px solid var(--bd);border-radius:8px}
+.trow .tlbl{flex:1;font-size:13px;line-height:1.4}
+.trow .tbtns{display:flex;gap:6px;flex-shrink:0}
+.tbtn{padding:6px 14px;border-radius:6px;font-size:11px;font-family:'DM Mono',monospace;font-weight:500;cursor:pointer;border:1px solid var(--bd);background:var(--s3);color:var(--mu);transition:all .15s}
+.tbtn.ai-sel{background:rgba(124,111,247,.15);border-color:var(--ac);color:var(--ac)}
+.tbtn.no-sel{background:rgba(76,175,125,.15);border-color:var(--ok);color:var(--ok)}
+/* AI REVIEW */
+.ai-resp{background:rgba(0,0,0,.3);border:1px solid var(--bd);border-radius:8px;padding:16px;margin-bottom:16px;font-family:'DM Mono',monospace;font-size:12px;line-height:1.8;color:#b8b8d0;position:relative}
+.ai-resp .ai-lbl{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--a3);font-family:'DM Mono',monospace;margin-bottom:10px;font-weight:500}
+.err-checkboxes{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.erow{display:flex;align-items:flex-start;gap:10px;padding:10px 13px;background:var(--s2);border:1px solid var(--bd);border-radius:7px;cursor:pointer;transition:border-color .15s}
+.erow:hover{border-color:var(--b2)}
+.erow.chk{border-color:var(--a4);background:rgba(240,160,64,.07)}
+.erow .eck{width:16px;height:16px;border-radius:3px;border:1.5px solid var(--di);flex-shrink:0;margin-top:1px;transition:all .15s;display:flex;align-items:center;justify-content:center;font-size:10px}
+.erow.chk .eck{border-color:var(--a4);background:var(--a4);color:#fff}
+.erow .etx{font-size:12px;color:var(--tx);line-height:1.5}
+/* RANK */
+.rl{display:flex;flex-direction:column;gap:7px;margin-bottom:16px}
+.ri{display:flex;align-items:center;gap:11px;padding:10px 13px;background:var(--s2);border:1px solid var(--bd);border-radius:7px;cursor:grab;user-select:none;transition:border-color .15s,opacity .15s}
+.ri:active{cursor:grabbing}
+.ri.dr{opacity:.45;border-color:var(--ac)}
+.ri.ov{border-color:var(--a3)}
+.ri .rn{font-family:'DM Mono',monospace;font-size:10px;color:var(--ac);min-width:16px;font-weight:500}
+.ri .rt{font-size:12px;flex:1;line-height:1.4}
+.ri .rh{color:var(--di);font-size:15px;cursor:grab}
+/* NAV */
+.qnv{display:flex;justify-content:space-between;align-items:center;margin-top:24px;gap:10px}
+.bn{padding:10px 22px;border-radius:7px;font-family:'Syne',sans-serif;font-size:13px;font-weight:800;cursor:pointer;transition:all .2s;border:none}
+.bn.pv{background:var(--s2);color:var(--tx);border:1px solid var(--bd)}
+.bn.pv:hover{border-color:var(--ac)}
+.bn.nx{background:linear-gradient(135deg,var(--ac),#9c70f8);color:#fff}
+.bn.nx:hover{opacity:.88;transform:translateY(-1px)}
+.bn.sb{background:linear-gradient(135deg,var(--ok),#2e7d52);color:#fff}
+.bn:disabled{opacity:.3;cursor:not-allowed;transform:none}
+.qmap{display:flex;gap:5px;flex-wrap:wrap}
+.qd{width:26px;height:26px;border-radius:5px;background:var(--s2);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:10px;font-family:'DM Mono',monospace;cursor:pointer;transition:all .15s;color:var(--mu)}
+.qd.an{background:rgba(77,208,225,.12);border-color:var(--a3);color:var(--a3)}
+.qd.cu{background:rgba(124,111,247,.18);border-color:var(--ac);color:var(--ac);font-weight:700}
+/* RESULTS */
+#s3{min-height:100vh;padding:52px 20px}
+.rc{max-width:840px;margin:0 auto}
+.rh{text-align:center;margin-bottom:40px}
+.rh h1{font-family:'Syne',sans-serif;font-size:clamp(24px,4vw,40px);font-weight:800;letter-spacing:-1px;margin-bottom:5px}
+.rh p{color:var(--mu);font-size:13px}
+.shero{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px}
+.scd{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:22px;text-align:center;position:relative;overflow:hidden}
+.scd::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.scd.m::before{background:linear-gradient(90deg,var(--ac),var(--a2))}
+.scd.s::before{background:var(--a3)}
+.scd.t::before{background:var(--er)}
+.bn2{font-family:'Syne',sans-serif;font-size:44px;font-weight:800;line-height:1}
+.bn2.g{background:linear-gradient(135deg,var(--ac),var(--a2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sl2{font-size:10px;color:var(--mu);letter-spacing:1px;text-transform:uppercase;font-family:'DM Mono',monospace;margin-top:2px}
+.ss2{font-size:11px;color:var(--mu);margin-top:6px}
+.bsec{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:24px;margin-bottom:18px}
+.bsec h3{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;margin-bottom:20px}
+.drow{display:flex;align-items:center;gap:12px;margin-bottom:13px}
+.dn{min-width:140px;font-size:12px;font-weight:500}
+.bt2{flex:1;height:6px;background:var(--bd);border-radius:3px;overflow:hidden}
+.bf{height:100%;border-radius:3px;transition:width 1.2s ease}
+.dp{min-width:34px;text-align:right;font-family:'DM Mono',monospace;font-size:11px}
+.ins{background:linear-gradient(135deg,rgba(124,111,247,.07),rgba(240,98,146,.04));border:1px solid rgba(124,111,247,.18);border-radius:14px;padding:24px;margin-bottom:18px}
+.ins h3{font-family:'Syne',sans-serif;font-size:15px;font-weight:800;margin-bottom:12px;color:var(--ac)}
+.ins ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.ins ul li{font-size:13px;line-height:1.6;color:var(--mu);display:flex;gap:8px}
+.ins ul li::before{content:'→';color:var(--ac);flex-shrink:0}
+.rfp{background:rgba(240,96,96,.04);border:1px solid rgba(240,96,96,.18);border-radius:14px;padding:24px;margin-bottom:18px}
+.rfp h3{font-family:'Syne',sans-serif;font-size:15px;font-weight:800;margin-bottom:14px;color:var(--er)}
+.rfc{display:flex;gap:10px;padding:11px;background:var(--s2);border-radius:7px;margin-bottom:8px}
+.rfc:last-child{margin-bottom:0}
+.rcard{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:22px;margin-bottom:12px}
+.rch{display:flex;justify-content:space-between;margin-bottom:12px;gap:8px}
+.rct{font-family:'Syne',sans-serif;font-weight:800;font-size:13px;line-height:1.3}
+.sb{padding:3px 10px;border-radius:100px;font-family:'DM Mono',monospace;font-size:10px;font-weight:500;white-space:nowrap;flex-shrink:0}
+.sb.hi{background:rgba(76,175,125,.14);color:var(--ok);border:1px solid rgba(76,175,125,.28)}
+.sb.mi{background:rgba(240,160,64,.14);color:var(--wn);border:1px solid rgba(240,160,64,.28)}
+.sb.lo{background:rgba(240,96,96,.14);color:var(--er);border:1px solid rgba(240,96,96,.28)}
+.rresp{background:var(--bg);border:1px solid var(--bd);border-radius:6px;padding:11px;font-family:'DM Mono',monospace;font-size:11px;line-height:1.65;color:#9090b8;margin-bottom:10px;white-space:pre-wrap;word-break:break-word}
+.sps{display:flex;flex-wrap:wrap;gap:5px}
+.sp{font-size:10px;padding:2px 8px;border-radius:100px;font-family:'DM Mono',monospace}
+.sp.p{background:rgba(76,175,125,.09);color:var(--ok);border:1px solid rgba(76,175,125,.18)}
+.sp.f{background:rgba(240,96,96,.09);color:var(--er);border:1px solid rgba(240,96,96,.18)}
+.exp{font-size:12px;color:var(--mu);margin-top:10px;line-height:1.6;border-top:1px solid var(--bd);padding-top:10px}
+.btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:20px}
+.bdl{padding:12px 24px;background:var(--sf);border:1px solid var(--bd);border-radius:8px;color:var(--tx);font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s}
+.bdl:hover{border-color:var(--ac);color:var(--ac)}
+/* WEBHOOK CONFIG */
+.wb-cfg{background:var(--s2);border:1px solid var(--bd);border-radius:10px;padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.wb-cfg label{font-size:11px;color:var(--mu);font-family:'DM Mono',monospace;letter-spacing:.5px;white-space:nowrap}
+.wb-cfg input{flex:1;min-width:200px;background:var(--bg);border:1px solid var(--bd);border-radius:6px;padding:8px 10px;color:var(--tx);font-family:'DM Mono',monospace;font-size:11px;outline:none;transition:border-color .2s}
+.wb-cfg input:focus{border-color:var(--ac)}
+.wb-cfg input::placeholder{color:var(--di)}
+.wb-save{padding:8px 16px;background:rgba(124,111,247,.15);border:1px solid var(--ac);border-radius:6px;color:var(--ac);font-family:'DM Mono',monospace;font-size:11px;cursor:pointer;white-space:nowrap;transition:all .2s}
+.wb-save:hover{background:rgba(124,111,247,.25)}
+.wb-status{font-size:10px;font-family:'DM Mono',monospace;padding:3px 8px;border-radius:4px}
+.wb-status.ok{color:var(--ok);background:rgba(76,175,125,.1);border:1px solid rgba(76,175,125,.2)}
+.wb-status.er{color:var(--er);background:rgba(240,96,96,.1);border:1px solid rgba(240,96,96,.2)}
+.wb-status.ld{color:var(--wn);background:rgba(240,160,64,.1);border:1px solid rgba(240,160,64,.2)}
+@media(max-width:560px){.shero,.obj-grid,.fg{grid-template-columns:1fr}}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:3px}
+</style>
+</head>
+<body>
+
+<!-- LANDING -->
+<div id="s0" class="scr on">
+  <div class="pill"><span class="dot"></span>AI Fluency Exercise · 2026</div>
+  <h1 class="hero">How Do You<br><span class="g">Work With AI?</span></h1>
+  <p class="sub">
+    A short, practical exercise across 6 everyday scenarios. There are no right or wrong answers — this helps us understand how people in our organisation naturally approach AI in their work.
+  </p>
+
+  <div class="stats">
+    <div class="sc"><div class="v">6</div><div class="l">Scenarios</div></div>
+    <div class="sc"><div class="v">~20m</div><div class="l">Approx. time</div></div>
+    <div class="sc"><div class="v">3</div><div class="l">Topic areas</div></div>
+  </div>
+
+  <div class="card">
+    <h2>Before you begin</h2>
+
+    <div class="fg">
+      <div class="fl">
+        <label>First Name</label>
+        <input id="fn" type="text" placeholder="First name"/>
+      </div>
+
+      <div class="fl">
+        <label>Last Name</label>
+        <input id="ln" type="text" placeholder="Last name"/>
+      </div>
+
+      <div class="fl full">
+        <label>Employee ID or Email</label>
+        <input id="em" type="text" placeholder="ID or email"/>
+      </div>
+
+      <!-- DEPARTMENT -->
+      <div class="fl">
+        <label>Department</label>
+        <select id="dp">
+          <option value="">Select...</option>
+          <option value="PAS">PAS</option>
+          <option value="TSA">TSA</option>
+          <option value="Tech">Tech</option>
+          <option value="Design">Design</option>
+          <option value="Finance">Finance</option>
+          <option value="HR">HR</option>
+          <option value="FO">FO</option>
+          <option value="B2B">B2B</option>
+        </select>
+      </div>
+
+      <!-- AI TOOLS -->
+      <div class="fl">
+        <label>What AI platforms do you use?</label>
+        <input id="aiTools" type="text" placeholder="ChatGPT, Claude, Gemini (comma separated)"/>
+      </div>
+
+      <!-- AI USAGE -->
+      <div class="fl full">
+        <label>How often do you use AI?</label>
+        <select id="fr">
+          <option value="">Select...</option>
+          <option>Rarely</option>
+          <option>A few times/week</option>
+          <option>Daily</option>
+          <option>Many times/day</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="btn" onclick="reg()">Continue →</button>
+  </div>
+</div>
+
+<!-- INSTRUCTIONS -->
+<div id="s1" class="scr">
+  <div class="ic">
+    <h2>A few things to know</h2>
+    <p class="dsc">You will work through 6 practical scenarios. Some ask you to write or rewrite something, some ask you to make a choice, some ask you to review content. Go with your natural instinct — <strong style="color:var(--tx)">there are no right or wrong answers.</strong> We are interested in how you think, not whether you get things "correct".</p>
+    <div class="obj-grid">
+      <div class="og"><div class="oi">✏️</div><h4>Prompt writing</h4><p>Write or improve prompts for realistic workplace tasks</p></div>
+      <div class="og"><div class="oi">🔍</div><h4>Content review</h4><p>Read an AI-generated response and share your observations</p></div>
+      <div class="og"><div class="oi">⚡</div><h4>Judgment calls</h4><p>Decide how you would handle each scenario in practice</p></div>
+    </div>
+    <ul class="rules">
+      <li><span class="n">1</span>For writing scenarios, type the actual text you would use — not a description of it.</li>
+      <li><span class="n">2</span>For review scenarios, mark whatever stands out to you — there is no fixed list of issues.</li>
+      <li><span class="n">3</span>For judgment scenarios, go with your instinct — your honest first reaction is what matters most.</li>
+      <li><span class="n">4</span>The exercise takes around 20 minutes. You can navigate between questions freely.</li>
+    </ul>
+    <button class="btn" onclick="begin()">Start exercise →</button>
+  </div>
+</div>
+
+<!-- TEST -->
+<div id="s2" class="scr">
+  <div class="hd">
+    <div><div class="cn" id="hN">—</div><div class="cm" id="hM">—</div></div>
+    <div class="pt">
+      <div class="pl"><span id="pL">Q1 of 6</span><span id="pP">0%</span></div>
+      <div class="pb"><div class="pf" id="pF" style="width:0%"></div></div>
+    </div>
+    <div class="tmr" id="tmr">20:00</div>
+  </div>
+  <div class="tb" id="qC"></div>
+</div>
+
+<!-- COMPLETION (shown to employee) -->
+<div id="s3" class="scr">
+  <div style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 20px;text-align:center">
+    <div style="font-size:48px;margin-bottom:20px">✅</div>
+    <div class="pill" style="margin-bottom:20px"><span class="dot"></span>Exercise complete</div>
+    <h1 class="hero" style="font-size:clamp(26px,4vw,44px);margin-bottom:12px">Thanks, <span id="doneN" class="g">—</span>!</h1>
+    <p class="sub" style="margin-bottom:32px">Your responses have been recorded. The facilitator will take it from here. You can close this window.</p>
+    <div style="background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:24px 32px;max-width:380px;width:100%">
+      <p style="font-size:12px;color:var(--mu);line-height:1.6">This exercise is part of an ongoing initiative to understand how teams across the organisation are working with AI tools. Your responses help us shape future learning programmes.</p>
+    </div>
+    <!-- Submission status indicator -->
+    <div id="submitStatusBox" style="margin-top:20px;font-size:12px;color:var(--mu);font-family:'DM Mono',monospace"></div>
+  </div>
+</div>
+
+<!-- RESULTS (invigilator only — password gated) -->
+<div id="s4" class="scr">
+  <!-- Password gate -->
+  <div id="pwGate" style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 20px">
+    <div style="background:var(--sf);border:1px solid var(--bd);border-radius:18px;padding:36px;max-width:380px;width:100%;text-align:center">
+      <div style="font-size:32px;margin-bottom:16px">🔒</div>
+      <h2 style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800;margin-bottom:8px">Invigilator access</h2>
+      <p style="font-size:13px;color:var(--mu);margin-bottom:24px;line-height:1.5">This report is restricted. Enter the invigilator passcode to view results.</p>
+      <div class="fl" style="margin-bottom:16px;text-align:left">
+        <label>Passcode</label>
+        <input id="pwInput" type="password" placeholder="Enter passcode" onkeydown="if(event.key==='Enter')checkPw()"/>
+      </div>
+      <button class="btn" style="margin-top:0" onclick="checkPw()">View Report →</button>
+      <p id="pwErr" style="font-size:12px;color:var(--er);margin-top:12px;display:none">Incorrect passcode. Please try again.</p>
+    </div>
+  </div>
+
+  <div id="reportBody" style="display:none">
+  <div class="rc" style="max-width:840px;margin:0 auto;padding:52px 20px">
+
+    <!-- HEADER -->
+    <div class="rh">
+      <div class="pill" style="margin-bottom:14px">
+        <span class="dot"></span>Invigilator Report
+      </div>
+      <h1 id="rTit">Results</h1>
+      <p id="rSub">AI fluency profile</p>
+    </div>
+
+    <!-- SCORE HERO -->
+    <div id="sH"></div>
+
+    <!-- DIMENSIONS -->
+    <div class="bsec">
+      <h3>Capability breakdown</h3>
+      <div id="dB"></div>
+    </div>
+
+    <!-- RED FLAGS -->
+    <div id="rfPanel" class="rfp" style="display:none">
+      <h3>Risk indicators</h3>
+      <div id="rfC"></div>
+    </div>
+
+    <!-- INSIGHTS -->
+    <div class="ins">
+      <h3>Insights</h3>
+      <ul id="iL"></ul>
+    </div>
+
+    <!-- QUESTION BREAKDOWN -->
+    <div class="bsec">
+      <h3>Detailed breakdown</h3>
+      <div id="qR"></div>
+    </div>
+
+  </div>
+</div>
+
+
+
+<script>
+// ═══════════════════════════════════════════════════
+//  QUESTION BANK
+// ═══════════════════════════════════════════════════
+const Qs = [
+{
+  id:1, type:'prompt',
+  section:'Scenario 1', sc:'#7c6ff7',
+  emoji:'[1]',
+  title:'Rewrite this underperforming prompt',
+  scenario:'A team member used the following prompt and got a generic, unhelpful response from an AI tool:\n\n"Summarise the report and give me the main points."',
+  task:'Rewrite this prompt so it would consistently produce a high-quality, usable output. Do not describe what you would change -- write the improved prompt itself.',
+  criteria:['Role/context added','Output structure defined','Audience specified','Constraints included','Vagueness eliminated'],
+  placeholder:'Write the improved prompt here...',
+  idealSignals:['you are','act as','for','audience','format','bullet','section','heading','length','tone','key','finding','recommendation','limit','exclude','focus','stakeholder','executive','team','context','background','specifically'],
+  minLen:80,
+  objective:'prompt_effectiveness',
+},
+{
+  id:2, type:'review',
+  section:'Scenario 2', sc:'#f06292',
+  emoji:'[2]',
+  title:'Find the problems in this AI response',
+  scenario:'A colleague asked an AI assistant: "What are the best practices for running a remote team?" -- and received the response below. They are about to send it to leadership as their own recommendation.',
+  aiResponse:`Best practices for managing remote teams:
+
+1. Studies show that remote teams are 23% more productive than in-office teams when managed correctly, making the shift clearly worthwhile for most organisations.
+
+2. Hold daily stand-up meetings for every team member -- this is essential and non-negotiable for maintaining alignment and should never be skipped.
+
+3. Use asynchronous communication as the default. Tools like Slack, email, or Notion allow team members across time zones to contribute without real-time pressure.
+
+4. Ensure every team member has a dedicated home office with a door they can close. This is a prerequisite for effective remote work.
+
+5. Set clear expectations around response times and availability windows so people know when they are expected to be reachable.
+
+6. Remote work is unsuitable for roles that require high collaboration or creative brainstorming -- these teams should remain in-office.`,
+  task:'Select every statement below that identifies a genuine problem with this AI response. Select all that apply -- missing a real problem is as important as flagging a false one.',
+  errorOptions:[
+    { id:'A', text:'The response uses numbered lists instead of paragraphs.', isError:false },
+    { id:'B', text:'The "23% more productive" statistic is presented as fact with no source -- AI commonly fabricates specific statistics like this.', isError:true },
+    { id:'C', text:'The response mentions Slack, email, and Notion -- it should have recommended only one tool.', isError:false },
+    { id:'D', text:'Point 2 presents daily stand-ups as "non-negotiable" and "essential" -- this is overly prescriptive and ignores contexts where daily stand-ups create overhead rather than value.', isError:true },
+    { id:'E', text:'The response is too long to send to leadership as-is.', isError:false },
+    { id:'F', text:'Point 6 states remote work is "unsuitable" for collaborative/creative roles -- this is a sweeping generalisation that contradicts significant evidence and should not be presented as a fact.', isError:true },
+  ],
+  objective:'usage_effectiveness',
+},
+{
+  id:3, type:'triage',
+  section:'Scenario 3', sc:'#4dd0e1',
+  emoji:'[3]',
+  title:'AI or do it yourself?',
+  scenario:'For each task below, decide whether you would use an AI tool or handle it directly yourself.',
+  task:'Click "Use AI" or "Do it myself" for each task. There are no trick questions -- judge each on its own merits.',
+  tasks:[
+    { id:'t1', text:'Draft a 600-word first version of a proposal for a new internal initiative', idealAI:true },
+    { id:'t2', text:'Say "yes" to a lunch invite from a colleague you know well', idealAI:false, flagIfAI:true },
+    { id:'t3', text:'Summarise 35 pages of a supplier contract into a one-page brief for your manager', idealAI:true },
+    { id:'t4', text:'Decide whether to approve a direct report\'s leave request', idealAI:false, flagIfAI:true },
+    { id:'t5', text:'Generate 8 alternative subject lines for a campaign email you\'ve already drafted', idealAI:true },
+    { id:'t6', text:'Write a 3-line apology message to a close colleague for missing their presentation', idealAI:false, flagIfAI:true },
+    { id:'t7', text:'Convert a table of data from a PDF into a structured spreadsheet format', idealAI:true },
+  ],
+  objective:'over_utilisation',
+},
+{
+  id:4, type:'mcq',
+  section:'Scenario 4', sc:'#9575cd',
+  emoji:'[4]',
+  title:'What is the core problem with this workflow?',
+  scenario:'A team member describes their daily workflow:\n\n"Every morning I paste all my unread emails into AI and ask it to prioritise them and tell me which ones to respond to first. Then I ask AI to draft all my replies. I review them quickly and send. For any decision that comes up in an email -- like whether to approve a budget request or escalate an issue -- I ask AI to tell me what the right call is based on the email thread. This saves me about 2 hours a day."',
+  task:'Which of the following best identifies the most serious problem with this workflow?',
+  options:[
+    { text:'The employee is spending too much time on email in general, which is a time management issue unrelated to AI.', score:1 },
+    { text:'Asking AI to determine which decisions to make and how -- such as budget approvals and escalation calls -- delegates human judgment to a system that has no accountability, no organisational context, and no understanding of consequences. This is high-risk regardless of time saved.', score:10 },
+    { text:'The AI-drafted replies may not match the employee\'s writing style, which could seem inauthentic to colleagues.', score:3 },
+    { text:'Pasting emails into an external AI tool may create a data privacy risk depending on what those emails contain.', score:5 },
+  ],
+  correctIdx:1,
+  explanation:'Options C and D are real concerns but secondary. The critical flaw is in delegating consequential judgment calls -- approvals, escalations -- to AI. These require organisational context, relational awareness, and accountability that AI cannot have. Using AI to decide "what the right call is" on business decisions is not a productivity hack; it is an abdication of professional responsibility.',
+  objective:'over_utilisation',
+},
+{
+  id:5, type:'prompt',
+  section:'Scenario 5', sc:'#4caf7d',
+  emoji:'[5]',
+  title:'Write a multi-step prompt sequence',
+  scenario:'You have just finished a 90-minute recorded strategy workshop with 8 people. You have a raw transcript (full of crosstalk, off-topic moments, and filler). Your goal is to produce: (1) a clean summary of decisions made, (2) a list of action items with owners, and (3) a short narrative paragraph suitable for sharing with stakeholders who were not in the meeting.',
+  task:'Write the sequence of prompts you would use to get an AI to help you produce all three outputs. You may write 1, 2, or 3 separate prompts -- but the result must be both accurate and usable. Separate distinct prompts with a line break and "---".',
+  criteria:['Task decomposed into steps','Each step has a clear output','Filtering/exclusion instructions','Format specified per output','Audience differentiated'],
+  placeholder:'Write your prompt sequence here. Use --- to separate individual prompts if using more than one.',
+  idealSignals:['extract','decision','action','owner','ignore','off-topic','filler','format','stakeholder','narrative','paragraph','list','below is','transcript','separate','step','do not include','output','meeting','summary'],
+  minLen:120,
+  objective:'prompt_effectiveness',
+},
+{
+  id:6, type:'rank',
+  section:'Scenario 6', sc:'#f0a040',
+  emoji:'[6]',
+  title:'Rank these AI responses from best to worst',
+  scenario:'Someone asked an AI: "How should we structure our team\'s weekly meeting to make it more effective?" -- and got four different responses. Rank them from most useful (1) to least useful (4).',
+  rankItems:[
+    { id:'rA', label:'Response A', text:'Consider replacing a general "updates" round with three focused agenda slots: decisions that need the group, blockers no one can resolve alone, and one forward-looking discussion item. Cap total time at 45 minutes. Circulate a shared doc 24 hours before for async updates -- this reclaims roughly 15 minutes of meeting time per session. Test this for 3 weeks before evaluating.' },
+    { id:'rB', label:'Response B', text:'Research by McKinsey and Harvard Business Review shows that teams using the RACI-Plus framework for meeting design see a 41% reduction in meeting time and a 67% improvement in decision quality. Implement the "three-stack" agenda method -- Status, Blockers, Strategy -- which was developed by Google\'s Project Aristotle team and is now standard in high-performing organisations.' },
+    { id:'rC', label:'Response C', text:'There are many approaches to structuring effective meetings and what works best really depends on your team, your culture, your goals, and a variety of contextual factors. Some teams prefer structured agendas while others find them restrictive. I\'d recommend experimenting with different formats and seeing what resonates with your specific team\'s needs and preferences.' },
+    { id:'rD', label:'Response D', text:'To make weekly meetings more effective, set a clear agenda in advance, start and end on time, assign a facilitator, limit attendees to those who are necessary, take notes and share action items afterwards, and rotate facilitation responsibilities. Encourage participation from everyone and follow up on previous action items at the start of each meeting.' },
+  ],
+  idealOrder:['rA','rD','rC','rB'],
+  explanation:'Response A is best: specific, actionable, time-bound, honest about the need to evaluate. Response D is generic but accurate -- safe baseline advice. Response C is useless: it says nothing, over-hedges everything, and punts all decisions back to the user. Response B is the most dangerous: it sounds authoritative but contains fabricated statistics ("41% reduction", "67% improvement"), a non-existent framework ("RACI-Plus"), and falsely attributes "three-stack" to Google\'s Project Aristotle (which studied team psychological safety, not meeting formats). Ranking B highly reveals dangerous AI over-trust.',
+  objective:'prompt_effectiveness',
+},
+];
+
+
+// ═══════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════
+const initAnswers = () => Qs.map(q => {
+  if(q.type==='triage') return {};
+  if(q.type==='review') return [];
+  if(q.type==='rank') return [...q.rankItems.map(r=>r.id)];
+  return null;
+});
+
+let S = { cand:{}, ans:initAnswers(), cur:0, tInt:null, secs:20*60, done:false };
+
+// ═══════════════════════════════════════════════════
+//  WEBHOOK HELPERS
+// ═══════════════════════════════════════════════════
+const WB_KEY = 'ai_assessment_webhook_url';
+
+
+
+
+
+function setWbStatus(msg, type){
+  const el = document.getElementById('wbStatus');
+  if(!el) return;
+  el.textContent = msg;
+  el.className = 'wb-status ' + type;
+  el.style.display = 'inline-block';
+  if(type === 'ok') setTimeout(()=>{ el.style.display='none'; }, 3000);
+}
+
+
+
+async function pushToSheets(){
+
+  const d = window._rep;
+  if(!d){ return; }
+
+  const {S:state, scores, dims, pct, total, max, taken, flags} = d;
+  const c = state.cand;
+
+  const mm = Math.floor(taken/60), ss = taken%60;
+  const grade = pct>=80?'Excellent':pct>=65?'Proficient':pct>=50?'Developing':'Foundational';
+
+  const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSfNPiFSzKaGYBTvWHlfaMM0p5WjYC3rhmGqQqE0ayMkfprKHA/formResponse";
+
+  const formData = new FormData();
+
+  // BASIC
+formData.append("entry.1760880680", c.fn);
+formData.append("entry.1453590684", c.ln);
+formData.append("entry.1842727148", c.em);
+formData.append("entry.690714960", c.dp);
+formData.append("entry.1668887216", c.aiTools); // ✅ NEW (AI tools)
+formData.append("entry.1395010045", c.fr);
+
+// ANSWERS (FINAL CORRECT)
+
+formData.append("entry.1478696394", (state.ans[0]||'').substring(0,500)); // Q1
+formData.append("entry.1351365906", (state.ans[1]||[]).join(', ')); // Q2
+formData.append("entry.144776186", JSON.stringify(state.ans[2]||{})); // Q3
+
+// Q4 ✅ FIXED
+formData.append(
+  "entry.51558860",
+  typeof state.ans[3] === 'number'
+    ? Qs[3].options[state.ans[3]].text
+    : 'none'
+);
+
+// Q5 ✅ FIXED
+formData.append(
+  "entry.216295813",
+  (state.ans[4]||'').substring(0,500)
+);
+
+// Q6 ✅ FIXED
+formData.append(
+  "entry.1400541374",
+  (state.ans[5]||[]).join(' > ')
+);
+
+// SCORE
+formData.append("entry.1484834735", pct);
+formData.append("entry.98628162", grade);
+formData.append(
+  "entry.1002391076",
+  String(mm).padStart(2,'0') + "m " + String(ss).padStart(2,'0') + "s"
+);
+
+// DIMENSIONS
+formData.append("entry.519118067", dims[0].score);
+formData.append("entry.1229061692", dims[1].score);
+formData.append("entry.1727090487", dims[2].score);
+
+// FLAGS
+formData.append("entry.947480917", flags.length);
+formData.append("entry.210605045", flags.filter(f=>f.lvl==='high').length);
+
+  try {
+    await fetch(FORM_URL, {
+      method: "POST",
+      mode: "no-cors",
+      body: formData
+    });
+
+    document.getElementById('submitStatusBox').innerText = "✅ Results submitted";
+
+  } catch(e){
+    document.getElementById('submitStatusBox').innerText = "❌ Submission failed";
+  }
+}
+
+
+// ═══════════════════════════════════════════════════
+//  REGISTRATION + TIMER
+// ═══════════════════════════════════════════════════
+function reg(){
+  const fn=document.getElementById('fn').value.trim();
+  const ln=document.getElementById('ln').value.trim();
+  const em=document.getElementById('em').value.trim();
+  const dp=document.getElementById('dp').value;
+  const aiTools = document.getElementById('aiTools').value.trim();
+  const fr=document.getElementById('fr').value;
+  if(!fn||!ln||!em||!dp||!fr||!aiTools){alert('Please complete all fields.');return;}
+  S.cand={fn,ln,em,dp,fr,aiTools};
+
+// 🔒 LOCK FIELDS
+document.getElementById('fn').disabled = true;
+document.getElementById('ln').disabled = true;
+document.getElementById('em').disabled = true;
+document.getElementById('dp').disabled = true;
+document.getElementById('fr').disabled = true;
+document.getElementById('aiTools').disabled = true;
+
+show('s1');
+}
+
+function begin(){
+  document.getElementById('hN').textContent=S.cand.fn+' '+S.cand.ln;
+  document.getElementById('hM').textContent=S.cand.dp+' | '+S.cand.fr;
+  show('s2'); renderQ(0);
+  S.tInt=setInterval(()=>{
+    S.secs--;
+    const m=Math.floor(S.secs/60),s=S.secs%60;
+    const el=document.getElementById('tmr');
+    el.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+    el.className='tmr';
+    if(S.secs<=120) el.classList.add('er');
+    else if(S.secs<=300) el.classList.add('wn');
+    if(S.secs<=0){clearInterval(S.tInt);submit();}
+  },1000);
+}
+
+// ═══════════════════════════════════════════════════
+//  RENDER
+// ═══════════════════════════════════════════════════
+function renderQ(idx){
+  S.cur=idx;
+  const q=Qs[idx];
+  const pct=Math.round(idx/Qs.length*100);
+  document.getElementById('pF').style.width=pct+'%';
+  document.getElementById('pL').textContent='Q'+(idx+1)+' of '+Qs.length;
+  document.getElementById('pP').textContent=pct+'%';
+
+  let h=`
+    <div class="stag" style="color:${q.sc};border-color:${q.sc}33;background:${q.sc}11">${q.emoji} ${q.section}</div>
+    <div class="qn">QUESTION ${String(q.id).padStart(2,'0')} / ${String(Qs.length).padStart(2,'0')}</div>
+    <h2 class="qt">${q.title}</h2>`;
+
+  h+=`<div class="sbox"><div class="sl">Scenario</div>`;
+  if(q.aiResponse){
+    h+=`<p>${q.scenario}</p><div class="ai-resp"><div class="ai-lbl">AI-generated response (to be reviewed)</div>${q.aiResponse.replace(/\n/g,'<br>')}</div>`;
+  } else {
+    h+=`<p>${q.scenario.replace(/\n/g,'<br>')}</p>`;
+  }
+  h+=`</div>`;
+
+  if(q.criteria) h+=`<div class="ctags">${q.criteria.map(c=>`<span class="ct">◈ ${c}</span>`).join('')}</div>`;
+  h+=`<p class="qtsk"><strong>Your task:</strong> ${q.task}</p>`;
+
+  if(q.type==='prompt'){
+    const v=S.ans[idx]||'';
+    h+=`<textarea class="ata" id="ata" oninput="saveP(this.value)">${v}</textarea>
+        <div class="ataf"><span id="mh" style="color:${v.length>=q.minLen?'#4caf7d':'#4a4a70'}">Min ~${q.minLen} chars</span><span id="cc">${v.length} chars</span></div>`;
+  } else if(q.type==='review'){
+    const sel=S.ans[idx]||[];
+    h+=`<div class="err-checkboxes">`;
+    q.errorOptions.forEach(opt=>{
+      const chk=sel.includes(opt.id);
+      h+=`<div class="erow${chk?' chk':''}" onclick="toggleErr('${opt.id}')">
+            <div class="eck">${chk?'✓':''}</div>
+            <div class="etx"><strong>${opt.id}.</strong> ${opt.text}</div>
+          </div>`;
+    });
+    h+=`</div>`;
+  } else if(q.type==='triage'){
+    const choices=S.ans[idx]||{};
+    h+=`<div class="tgrid">`;
+    q.tasks.forEach(t=>{
+      const cv=choices[t.id];
+      h+=`<div class="trow">
+            <div class="tlbl">${t.text}</div>
+            <div class="tbtns">
+              <button class="tbtn${cv==='ai'?' ai-sel':''}" onclick="setTriage('${t.id}','ai')">Use AI</button>
+              <button class="tbtn${cv==='no'?' no-sel':''}" onclick="setTriage('${t.id}','no')">Do it myself</button>
+            </div>
+          </div>`;
+    });
+    h+=`</div>`;
+  } else if(q.type==='mcq'){
+    h+=`<div class="opts">`;
+    q.options.forEach((o,i)=>{
+      const sel=S.ans[idx]===i;
+      h+=`<div class="opt${sel?' sel':''}" onclick="selMcq(${i})">
+            <div class="ob"></div>
+            <div>${o.text}</div>
+          </div>`;
+    });
+    h+=`</div>`;
+  } else if(q.type==='rank'){
+    const order=S.ans[idx]||q.rankItems.map(r=>r.id);
+    h+=`<p style="font-size:11px;color:var(--mu);font-family:'DM Mono',monospace;margin-bottom:10px">Drag to reorder — top = most useful</p>
+        <div class="rl" id="rl">`;
+    order.forEach((id,pos)=>{
+      const item=q.rankItems.find(r=>r.id===id);
+      h+=`<div class="ri" draggable="true" data-id="${id}"
+              ondragstart="dS(event)" ondragover="dO(event)" ondrop="dD(event)" ondragleave="dL(event)">
+            <span class="rn">${pos+1}</span>
+            <div class="rt"><strong>${item.label}:</strong> ${item.text}</div>
+            <span class="rh">⠿</span>
+          </div>`;
+    });
+    h+=`</div>`;
+  }
+
+  h+=`<div class="qnv">
+        <div class="qmap" id="qm"></div>
+        <div style="display:flex;gap:8px">
+          <button class="bn pv" onclick="nav(-1)"${idx===0?' disabled':''}>&larr; Back</button>
+          ${idx<Qs.length-1
+            ?`<button class="bn nx" onclick="nav(1)">Next &rarr;</button>`
+            :`<button class="bn sb" onclick="submit()">Submit ✓</button>`}
+        </div>
+      </div>`;
+
+  document.getElementById('qC').innerHTML=h;
+  renderMap();
+
+  if(q.type==='prompt'){
+    const ta=document.getElementById('ata');
+    ta.addEventListener('input',function(){
+      document.getElementById('cc').textContent=this.value.length+' chars';
+      document.getElementById('mh').style.color=this.value.length>=(Qs[S.cur].minLen||0)?'#4caf7d':'#4a4a70';
+    });
+  }
+}
+
+function renderMap(){
+  const m=document.getElementById('qm');
+  if(!m)return;
+  m.innerHTML=Qs.map((q,i)=>`<div class="qd${i===S.cur?' cu':isAns(i)?' an':''}" onclick="navTo(${i})">${i+1}</div>`).join('');
+}
+
+function isAns(i){
+  const a=S.ans[i],q=Qs[i];
+  if(q.type==='prompt') return a&&a.length>20;
+  if(q.type==='mcq') return a!==null&&a!==undefined;
+  if(q.type==='review') return Array.isArray(a)&&a.length>0;
+  if(q.type==='triage') return a&&Object.keys(a).length>0;
+  if(q.type==='rank') return true;
+  return false;
+}
+
+// ═══════════════════════════════════════════════════
+//  SAVERS
+// ═══════════════════════════════════════════════════
+function saveP(v){S.ans[S.cur]=v;renderMap();}
+function selMcq(i){S.ans[S.cur]=i;renderQ(S.cur);}
+function toggleErr(id){
+  if(!Array.isArray(S.ans[S.cur]))S.ans[S.cur]=[];
+  const a=S.ans[S.cur],idx2=a.indexOf(id);
+  if(idx2>=0)a.splice(idx2,1);else a.push(id);
+  renderQ(S.cur);
+}
+function setTriage(id,val){
+  if(!S.ans[S.cur]||typeof S.ans[S.cur]!=='object'||Array.isArray(S.ans[S.cur]))S.ans[S.cur]={};
+  S.ans[S.cur][id]=val;
+  renderQ(S.cur);
+}
+function nav(d){const n=S.cur+d;if(n>=0&&n<Qs.length)renderQ(n);}
+function navTo(i){renderQ(i);}
+
+// DRAG-DROP
+let dSrc=null;
+function dS(e){dSrc=e.currentTarget;e.currentTarget.classList.add('dr');}
+function dO(e){e.preventDefault();e.currentTarget.classList.add('ov');}
+function dL(e){e.currentTarget.classList.remove('ov');}
+function dD(e){
+  e.preventDefault();
+  const tgt=e.currentTarget;tgt.classList.remove('ov');
+  if(dSrc&&dSrc!==tgt){
+    const l=document.getElementById('rl');
+    const items=[...l.querySelectorAll('.ri')];
+    const si=items.indexOf(dSrc),ti=items.indexOf(tgt);
+    if(ti<si)l.insertBefore(dSrc,tgt);else l.insertBefore(dSrc,tgt.nextSibling);
+    [...l.querySelectorAll('.ri')].forEach((el,i)=>{el.querySelector('.rn').textContent=i+1;});
+    S.ans[S.cur]=[...l.querySelectorAll('.ri')].map(el=>el.dataset.id);
+  }
+  if(dSrc)dSrc.classList.remove('dr');
+  dSrc=null;
+}
+
+// ═══════════════════════════════════════════════════
+//  SCORING
+// ═══════════════════════════════════════════════════
+function scoreQ(q,a){
+  if(q.type==='prompt'){
+    const txt=(a||'').toLowerCase(), chars=(a||'').length;
+    const sigs=q.idealSignals.filter(s=>txt.includes(s)).length;
+    const sigS=sigs/q.idealSignals.length;
+    const lenS=chars<q.minLen?(chars/q.minLen)*.5:chars>600?1:.5+.5*((chars-q.minLen)/(600-q.minLen));
+    const hasRole=/\b(you are|act as|as a|your role|persona)\b/i.test(a||'');
+    const hasFmt=/\b(format|bullet|list|table|section|heading|numbered|paragraph)\b/i.test(a||'');
+    const hasCon=/\b(do not|don't|avoid|exclude|ignore|limit|only|no more than|must not)\b/i.test(a||'');
+    const hasAud=/\b(for|audience|stakeholder|reader|who will|manager|team|executive|client)\b/i.test(a||'');
+    const hasCtx=/\b(context|background|given that|based on|the following|below)\b/i.test(a||'');
+    const strS=([hasRole,hasFmt,hasCon,hasAud,hasCtx].filter(Boolean).length)/5;
+    const raw=(sigS*.35)+(lenS*.25)+(strS*.40);
+    const total=Math.round(Math.min(raw,1)*10);
+    return{total,flags:{hasRole,hasFmt,hasCon,hasAud,hasCtx},chars,sigs,sigS:Math.round(sigS*100),strS:Math.round(strS*100)};
+  }
+  if(q.type==='review'){
+    const sel=a||[];
+    const realErrors=q.errorOptions.filter(o=>o.isError).map(o=>o.id);
+    const fakeErrors=q.errorOptions.filter(o=>!o.isError).map(o=>o.id);
+    const truePos=realErrors.filter(id=>sel.includes(id)).length;
+    const falsePos=fakeErrors.filter(id=>sel.includes(id)).length;
+    const falseNeg=realErrors.filter(id=>!sel.includes(id)).length;
+    const precision=sel.length>0?truePos/sel.length:0;
+    const recall=truePos/realErrors.length;
+    const f1=precision+recall>0?2*precision*recall/(precision+recall):0;
+    const total=Math.round(f1*10);
+    const blindTrust=truePos===0;
+    return{total,truePos,falsePos,falseNeg,realErrors,blindTrust,sel};
+  }
+  if(q.type==='triage'){
+    const choices=a||{};
+    let score=0,maxScore=0,overRelianceFlags=[],underUseFlags=[];
+    q.tasks.forEach(t=>{
+      maxScore+=2;
+      const c=choices[t.id];
+      if(!c){return;}
+      if(t.idealAI&&c==='ai'){score+=2;}
+      else if(!t.idealAI&&c==='no'){score+=2;}
+      else if(t.idealAI&&c==='no'){score+=0;underUseFlags.push(t.text);}
+      else if(!t.idealAI&&c==='ai'){score+=0;if(t.flagIfAI)overRelianceFlags.push(t.text);}
+    });
+    const total=Math.round((score/maxScore)*10);
+    return{total,score,maxScore,overRelianceFlags,underUseFlags};
+  }
+  if(q.type==='mcq'){
+    const correct=a===q.correctIdx;
+    const total=correct?10:(typeof a==='number'?q.options[a]?.score||0:0);
+    return{total,correct,chosen:a};
+  }
+  if(q.type==='rank'){
+    const order=a||q.rankItems.map(r=>r.id);
+    const ideal=q.idealOrder;
+    let pts=0;
+    order.forEach((id,i)=>{const ip=ideal.indexOf(id);if(Math.abs(i-ip)<=1)pts+=1.5;if(i===ip)pts+=0.5;});
+    const bPos=order.indexOf('rB');
+    const dangerousTrust=bPos<=1;
+    const total=Math.min(Math.round(pts),10);
+    return{total,order,idealOrder:ideal,dangerousTrust,bPos};
+  }
+  return{total:0};
+}
+
+function getDims(scores){
+  const avg=arr=>arr.reduce((a,b)=>a+b,0)/arr.length;
+  const p1=scores[0],rev=scores[1],tri=scores[2],mcq=scores[3],p2=scores[4],rnk=scores[5];
+  return[
+    {name:'Prompt effectiveness', color:'#7c6ff7', score:Math.round(avg([p1.total,p2.total,rnk.total])*10)},
+    {name:'Usage effectiveness',  color:'#4dd0e1', score:Math.round(avg([rev.total,tri.total,mcq.total])*10)},
+    {name:'Over-utilisation risk', color:'#f06060', score:100-Math.round(avg([(tri.overRelianceFlags||[]).length>0?30:100,(mcq.correct?100:40),(rnk.dangerousTrust?20:100),(rev.blindTrust?10:100)])),invert:true},
+  ];
+}
+
+function getRedFlags(scores){
+  const flags=[];
+  const rev=scores[1],tri=scores[2],mcq=scores[3],rnk=scores[5];
+  if(rev.blindTrust) flags.push({lvl:'high',txt:'Found zero errors in the AI response (Q2) — suggests AI output is used without critical review. High risk of propagating hallucinated statistics or bad advice.'});
+  if((tri.overRelianceFlags||[]).length>0) flags.push({lvl:'high',txt:'Chose to use AI for tasks that should never be delegated to AI: '+tri.overRelianceFlags.slice(0,2).join('; ')+'. Classic over-utilisation pattern.'});
+  if(!mcq.correct&&mcq.chosen===3) flags.push({lvl:'medium',txt:'Identified the email privacy issue (Q4) but missed the critical flaw — delegating judgment decisions to AI.'});
+  if(!mcq.correct) flags.push({lvl:'medium',txt:'Did not correctly identify the core over-reliance problem in the workflow question (Q4).'});
+  if(rnk.dangerousTrust) flags.push({lvl:'high',txt:'Ranked the hallucinated AI response (Response B, Q6) in the top 2. High-confidence acceptance of hallucinated content is a critical risk.'});
+  if(rev.falsePos>1) flags.push({lvl:'low',txt:'Flagged '+(rev.falsePos)+' non-issues as problems in Q2 — indicates over-caution or difficulty distinguishing real AI flaws from stylistic preferences.'});
+  return flags;
+}
+
+// ═══════════════════════════════════════════════════
+//  INSIGHTS BUILDER
+// ═══════════════════════════════════════════════════
+function buildInsights(scores,dims,pct,flags){
+  const ins=[];
+  const lo=dims.reduce((a,b)=>b.score<a.score?b:a);
+  const hi=dims.filter(d=>!d.invert).reduce((a,b)=>b.score>a.score?b:a);
+  const rev=scores[1],tri=scores[2],rnk=scores[5];
+
+  if(pct>=75) ins.push('Strong AI literacy overall. Candidate demonstrates structured prompting, critical output review, and calibrated judgment about when to apply AI.');
+  else if(pct>=55) ins.push('Developing competency. Candidate shows foundational awareness but inconsistency — particularly in output review and usage boundaries.');
+  else ins.push('Foundational level. Candidate likely uses AI habitually rather than intentionally. Structured AI literacy training is recommended before expanding AI use.');
+
+  ins.push(`Top competency: <strong style="color:var(--tx)">${hi.name}</strong> (${hi.score}%) — use this as the coaching anchor for improvement.`);
+  ins.push(`Primary development area: <strong style="color:var(--tx)">${lo.name}</strong> (${lo.score}%) — targeted training here will yield the highest ROI.`);
+
+  if(rev.truePos===3) ins.push('Correctly identified all three errors in the AI response (Q2) — strong critical reading. This is a rare and high-value skill.');
+  else if(rev.truePos===0) ins.push('Missed all three errors in the AI response (Q2), including a fabricated statistic. Accepting AI output at face value is the highest-risk behaviour in daily AI use.');
+  else ins.push(`Found ${rev.truePos} of 3 errors in the AI response (Q2). ${rev.falseNeg>0?'Missing the remaining error(s) suggests gaps in critical review.':''}`);
+
+  if(rnk.dangerousTrust) ins.push('Ranked the hallucination-heavy response (Q6) highly. Employees who cannot identify plausible-but-wrong AI output are a compliance and quality risk.');
+  if((tri.overRelianceFlags||[]).length===0) ins.push('Triage judgment (Q3) is well-calibrated — correctly avoided using AI for personal, trivial, and judgment-dependent tasks.');
+
+  return ins;
+}
+
+// ═══════════════════════════════════════════════════
+//  SUBMIT + RESULTS
+// ═══════════════════════════════════════════════════
+function submit(){
+  if(S.done)return;
+ S.done=true;
+   clearInterval(S.tInt);
+
+  const scores=Qs.map((q,i)=>scoreQ(q,S.ans[i]));
+  const total=scores.reduce((a,b)=>a+b.total,0);
+  const max=Qs.length*10;
+  const pct=Math.round(total/max*100);
+  const taken=20*60-S.secs;
+  const dims=getDims(scores);
+  const flags=getRedFlags(scores);
+
+  window._rep={S,scores,dims,pct,total,max,taken,flags};
+
+  document.getElementById('doneN').textContent=S.cand.fn;
+  show('s3');
+  window.scrollTo(0,0);
+
+  // Auto-push to Sheets if webhook is saved
+  pushToSheets();
+}
+
+
+
+function renderReport(){
+  const d=window._rep;
+  if(!d)return;
+  const {S:state,scores,dims,pct,total,max,taken,flags}=d;
+  const mm=Math.floor(taken/60),ss=taken%60;
+  const grade=pct>=80?'Excellent':pct>=65?'Proficient':pct>=50?'Developing':'Foundational';
+
+  document.getElementById('rTit').textContent=state.cand.fn+' '+state.cand.ln+' — AI Fluency Report';
+  document.getElementById('rSub').textContent=state.cand.dp+' | '+state.cand.fr+' | '+state.cand.em;
+
+  document.getElementById('sH').innerHTML=`
+    <div class="scd m"><div class="bn2 g">${pct}%</div><div class="sl2">Overall score</div><div class="ss2">${grade} &middot; ${total}/${max} pts</div></div>
+    <div class="scd s"><div class="bn2" style="color:#4dd0e1">${String(mm).padStart(2,'0')}:${String(ss).padStart(2,'0')}</div><div class="sl2">Time taken</div><div class="ss2">of 20:00 allowed</div></div>
+    <div class="scd t"><div class="bn2" style="color:${flags.filter(f=>f.lvl==='high').length>0?'#f06060':flags.length>0?'#f0a040':'#4caf7d'}">${flags.length}</div><div class="sl2">Red flags</div><div class="ss2">${flags.length===0?'None detected':flags.filter(f=>f.lvl==='high').length+' high severity'}</div></div>`;
+
+  document.getElementById('dB').innerHTML=dims.map(d2=>`
+    <div class="drow">
+      <div class="dn">${d2.name}</div>
+      <div class="bt2"><div class="bf" style="width:${d2.score}%;background:${d2.color}"></div></div>
+      <div class="dp" style="color:${d2.color}">${d2.score}%</div>
+    </div>`).join('');
+
+  if(flags.length>0){
+    document.getElementById('rfPanel').style.display='block';
+    document.getElementById('rfC').innerHTML=flags.map(f=>`
+      <div class="rfc">
+        <span style="font-size:14px">${f.lvl==='high'?'🔴':f.lvl==='medium'?'🟡':'🔵'}</span>
+        <span style="font-size:12px;color:var(--mu);line-height:1.55">${f.txt}</span>
+      </div>`).join('');
+  }
+
+  document.getElementById('iL').innerHTML=buildInsights(scores,dims,pct,flags).map(i=>`<li>${i}</li>`).join('');
+
+  document.getElementById('qR').innerHTML=Qs.map((q,i)=>{
+    const sc=scores[i];
+    const cls=sc.total>=8?'hi':sc.total>=5?'mi':'lo';
+    let resp='(No answer provided)';
+    if(q.type==='prompt') resp=(state.ans[i]||'(none)').substring(0,500)+((state.ans[i]||'').length>500?'...':'');
+    else if(q.type==='mcq') resp=typeof state.ans[i]==='number'?'Selected: "'+q.options[state.ans[i]]?.text.substring(0,80)+'..."':'(Not answered)';
+    else if(q.type==='review') resp=(state.ans[i]||[]).length>0?'Flagged: '+state.ans[i].join(', '):'(Nothing flagged)';
+    else if(q.type==='triage'){const ch=state.ans[i]||{};resp=q.tasks.map(t=>t.text.substring(0,40)+'... → '+(ch[t.id]==='ai'?'Use AI':ch[t.id]==='no'?'Do myself':'(unanswered)')).join('\n');}
+    else if(q.type==='rank'){const ord=state.ans[i]||q.rankItems.map(r=>r.id);resp=ord.map((id,p)=>(p+1)+'. '+q.rankItems.find(r=>r.id===id)?.label).join(' | ');}
+
+    let pills='';
+    if(q.type==='prompt'&&sc.flags) pills=`<div class="sps">
+      <span class="sp ${sc.flags.hasRole?'p':'f'}">Role set</span>
+      <span class="sp ${sc.flags.hasFmt?'p':'f'}">Format defined</span>
+      <span class="sp ${sc.flags.hasCon?'p':'f'}">Constraints</span>
+      <span class="sp ${sc.flags.hasAud?'p':'f'}">Audience named</span>
+      <span class="sp ${sc.flags.hasCtx?'p':'f'}">Context given</span>
+      <span class="sp ${sc.chars>=80?'p':'f'}">${sc.chars} chars</span>
+    </div>`;
+    else if(q.type==='review') pills=`<div class="sps">
+      <span class="sp ${sc.truePos===3?'p':'f'}">${sc.truePos}/3 real errors found</span>
+      <span class="sp ${sc.falsePos===0?'p':'f'}">${sc.falsePos} false positives</span>
+      <span class="sp ${sc.blindTrust?'f':'p'}">${sc.blindTrust?'Blind trust detected':'Critical reading shown'}</span>
+    </div>`;
+    else if(q.type==='triage') pills=`<div class="sps">
+      <span class="sp ${(sc.overRelianceFlags||[]).length===0?'p':'f'}">${(sc.overRelianceFlags||[]).length} over-reliance choices</span>
+      <span class="sp ${(sc.underUseFlags||[]).length===0?'p':'f'}">${(sc.underUseFlags||[]).length} under-use choices</span>
+    </div>`;
+    else if(q.type==='mcq') pills=`<div class="sps"><span class="sp ${sc.correct?'p':'f'}">${sc.correct?'Correct answer':'Incorrect answer'}</span></div>`;
+    else if(q.type==='rank') pills=`<div class="sps">
+      <span class="sp ${!sc.dangerousTrust?'p':'f'}">${sc.dangerousTrust?'Hallucinated response ranked high':'Hallucination correctly ranked low'}</span>
+    </div>`;
+
+    return `<div class="rcard">
+      <div class="rch"><div class="rct">${q.emoji} Q${q.id}: ${q.title}</div><div class="sb ${cls}">${sc.total}/10</div></div>
+      <div class="rresp">${resp}</div>
+      ${pills}
+      ${q.explanation?`<div class="exp">Explanation: ${q.explanation}</div>`:''}
+    </div>`;
+  }).join('');
+} // ← closes renderReport()
+
+// ═══════════════════════════════════════════════════
+//  DOWNLOAD + RESTART
+// ═══════════════════════════════════════════════════
+function dlRep(){
+  const d=window._rep;
+  if(!d)return;
+  const {S:state,scores,dims,pct,total,max,taken,flags}=d;
+  const c=state.cand;
+  const mm=Math.floor(taken/60),ss=taken%60;
+  let t='AI FLUENCY REPORT — INVIGILATOR COPY\n'+'='.repeat(50)+'\n\n';
+  t+='Candidate: '+c.fn+' '+c.ln+'\nID/Email: '+c.em+'\nDepartment: '+c.dp+'\nAI usage: '+c.fr+'\nDate: '+new Date().toLocaleDateString('en-IN')+'\n\n';
+  t+='OVERALL: '+pct+'% ('+total+'/'+max+') — '+(pct>=80?'Excellent':pct>=65?'Proficient':pct>=50?'Developing':'Foundational')+'\nTime: '+mm+'m '+ss+'s\n\n';
+  t+='COMPETENCY SCORES\n'+'-'.repeat(40)+'\n';
+  dims.forEach(ds=>{t+=ds.name+': '+ds.score+'%\n';});
+  t+='\nRED FLAGS ('+flags.length+')\n'+'-'.repeat(40)+'\n';
+  if(flags.length===0)t+='None detected.\n';
+  flags.forEach(f=>{t+='['+f.lvl.toUpperCase()+'] '+f.txt+'\n';});
+  t+='\nQUESTION SCORES\n'+'-'.repeat(40)+'\n';
+  Qs.forEach((q,i)=>{t+='Q'+q.id+' ('+q.type.toUpperCase()+') '+q.title+': '+scores[i].total+'/10\n';});
+  const blob=new Blob([t],{type:'text/plain'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download='AIFluency_'+c.fn+'_'+c.ln+'.txt';a.click();
+  URL.revokeObjectURL(url);
+}
+
+function restart(){
+  clearInterval(S.tInt);
+  S={cand:{},ans:initAnswers(),cur:0,tInt:null,secs:20*60,done:false};
+  ['fn','ln','em'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('dp').value='';
+  document.getElementById('fr').value='';
+  document.getElementById('pwGate').style.display='flex';
+  document.getElementById('reportBody').style.display='none';
+  document.getElementById('pwInput').value='';
+  document.getElementById('pwErr').style.display='none';
+  show('s0');
+}
+
+function show(id){
+  document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>
